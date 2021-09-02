@@ -40,7 +40,7 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-function Header() {
+const Header = () => {
 	const { menuButtons, menuButton, menuLeft, appBar } = useStyles();
 
 	const webTitle = () => {
@@ -66,13 +66,13 @@ function Header() {
 	};
 
 	return (
-		<header>
+		<div className="header-wrapper" style={{ height: '10%' }}>
 			<AppBar className={appBar}>
 				{webTitle()}
 				<div className={menuButtons}>{getMenuButtons()}</div>
 			</AppBar>
-		</header>
+		</div>
 	);
-}
+};
 
 export default Header;
