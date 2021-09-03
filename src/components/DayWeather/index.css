@@ -1,0 +1,19 @@
+.day-weather-wrapper {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border: 2px solid black;
+	padding: 20px;
+	margin: 20px;
+}
+.day-label {
+	display: flex;
+	font-size: 20px;
+}
+.degree-label {
+	display: flex;
+	font-size: 18px;
+	margin-top: 10px;
+}

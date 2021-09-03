@@ -4,39 +4,66 @@ import { useSelector } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
+import CityWeather from '../../components/CityWeather';
 import './index.css';
 
 const Home = () => {
 	const { apiKey } = useSelector((state) => state.apiWeather);
 
-	const [cityInput, setCityInput] = useState(''); // default city is Tel Aviv
 	const [citiesOptions, setCitiesOptions] = useState([]);
-	const [chosenCity, setChosenCity] = useState(citiesOptions[0]);
+	const [chosenCity, setChosenCity] = useState({
+		name: citiesOptions[0]?.name || '',
+		key: citiesOptions[0]?.key || '',
+	});
 
 	const getRelevantCities = async (cityName) => {
-		setCityInput(cityName);
-		const response = await fetch(
-			`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${cityName}&language=en`
-		);
-		const responseJsonArr = await response.json();
-		setCitiesOptions(responseJsonArr);
+		if (!cityName) {
+			setCitiesOptions([]);
+		} else {
+			await fetch(
+				`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=tLAAzAFGRQO6O5RGZQ92Kjx2zOxa4rJ9&q=${cityName}&language=en`
+			)
+				.then((response) => response.json())
+				.then((responseJsonArr) =>
+					responseJsonArr.map((city) => {
+						return { name: city.LocalizedName, key: city.Key };
+					})
+				)
+				.then((citiesArr) => setCitiesOptions(citiesArr));
+		}
+	};
+
+	const closeCityWeather = () => {
+		setChosenCity({});
+		setCitiesOptions([]);
 	};
 
 	return (
 		<div className="home-wrapper">
 			<Autocomplete
-				value={chosenCity?.LocalizedName || ''}
-				onChange={(event, newValue) => {
-					setChosenCity(newValue.LocalizedName);
-				}}
-				inputValue={cityInput}
-				onInputChange={(event, newValue) => getRelevantCities(newValue)}
-				id="controllable-states-demo"
+				id="combo-box-demo"
 				options={citiesOptions}
-				style={{ width: '25%' }}
-				getOptionLabel={(city) => city.LocalizedName || ''}
+				getOptionLabel={(city) => city.name || ''}
+				style={{ width: '25%', display: 'flex' }}
+				onInputChange={(event, newValue) => getRelevantCities(newValue)}
+				onChange={(event, city) => {
+					if (city) {
+						setChosenCity({ name: city.name, key: city.key });
+					} else {
+						// city is empty string
+						setChosenCity({});
+					}
+				}}
 				renderInput={(params) => <TextField {...params} label="City" variant="outlined" />}
 			/>
+			{chosenCity?.name && chosenCity?.key && (
+				<CityWeather
+					city={chosenCity?.name}
+					cityKey={chosenCity?.key}
+					isFav={false}
+					closeCityWeather={closeCityWeather}
+				/>
+			)}
 		</div>
 	);
 };

@@ -1,7 +1,7 @@
 .home-wrapper {
 	display: flex;
 	flex-direction: column;
-	padding: 20px 100px 30px 100px;
+	padding: 20px 200px 30px 200px;
 	justify-content: center;
 	align-items: center;
 }
