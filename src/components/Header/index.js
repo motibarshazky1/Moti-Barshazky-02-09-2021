@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Typography, makeStyles, Button } from '@material-ui/core';
+import { AppBar, Toolbar, makeStyles, Button } from '@material-ui/core';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import './index.css';

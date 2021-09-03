@@ -1,0 +1,7 @@
+.home-wrapper {
+	display: flex;
+	flex-direction: column;
+	padding: 20px 100px 30px 100px;
+	justify-content: center;
+	align-items: center;
+}
