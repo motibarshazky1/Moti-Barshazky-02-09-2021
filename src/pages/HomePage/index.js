@@ -21,7 +21,7 @@ const Home = () => {
 			setCitiesOptions([]);
 		} else {
 			await fetch(
-				`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=tLAAzAFGRQO6O5RGZQ92Kjx2zOxa4rJ9&q=${cityName}&language=en`
+				`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=EYkBWBy6V8KN1GsvNfXJXmw4d3Y8urrx&q=${cityName}&language=en`
 			)
 				.then((response) => response.json())
 				.then((responseJsonArr) =>

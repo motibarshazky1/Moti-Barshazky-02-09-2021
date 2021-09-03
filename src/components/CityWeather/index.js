@@ -7,6 +7,8 @@ import DayWeather from '../DayWeather';
 
 import './index.css';
 
+const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
 const CityWeather = ({ city, cityKey, isFav, closeCityWeather }) => {
 	const [currentWeather, setCurrentWeather] = useState({});
 	const [fiveDaysWeather, setFiveDaysWeather] = useState([]);
@@ -14,17 +16,38 @@ const CityWeather = ({ city, cityKey, isFav, closeCityWeather }) => {
 	useEffect(() => {
 		if (city && cityKey) {
 			getCurrentWeather();
+			getFiveDaysWeather();
 		}
-	}, []);
+	}, [city, cityKey]);
+
+	// returns the day in the week for the given date
+	const getDayInWeek = (stringDate) => {
+		const date = new Date(stringDate);
+		return days[date.getDay()];
+	};
 
 	const getCurrentWeather = async () => {
 		await fetch(
-			`http://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=tLAAzAFGRQO6O5RGZQ92Kjx2zOxa4rJ9`
+			`http://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=EYkBWBy6V8KN1GsvNfXJXmw4d3Y8urrx`
 		)
 			.then((response) => response.json())
 			.then((responseJsonArr) =>
 				setCurrentWeather({ title: responseJsonArr[0].WeatherText, temp: responseJsonArr[0].Temperature.Metric.Value })
 			);
+	};
+
+	const getFiveDaysWeather = async () => {
+		await fetch(
+			`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=EYkBWBy6V8KN1GsvNfXJXmw4d3Y8urrx&metric=true`
+		)
+			.then((response) => response.json())
+			.then((responseJsonArr) => {
+				responseJsonArr.DailyForecasts.forEach((element) => {
+					element.day = getDayInWeek(element.Date);
+					element.maxTemp = element.Temperature.Maximum.Value;
+				});
+				setFiveDaysWeather(responseJsonArr.DailyForecasts);
+			});
 	};
 
 	return (
@@ -57,11 +80,9 @@ const CityWeather = ({ city, cityKey, isFav, closeCityWeather }) => {
 			<div className="body">
 				<label className="current-weather-title">{currentWeather?.title}</label>
 				<div className="five-days-weather">
-					<DayWeather day="Sun" degree={`${currentWeather?.temp}° c`} />
-					<DayWeather day="Mon" degree={`${currentWeather?.temp}° c`} />
-					<DayWeather day="Mon" degree={`${currentWeather?.temp}° c`} />
-					<DayWeather day="Mon" degree={`${currentWeather?.temp}° c`} />
-					<DayWeather day="Mon" degree={`${currentWeather?.temp}° c`} />
+					{fiveDaysWeather.map((dayWeather, index) => (
+						<DayWeather key={index} day={dayWeather.day} degree={`${dayWeather.maxTemp}° c`} />
+					))}
 				</div>
 			</div>
 		</div>
