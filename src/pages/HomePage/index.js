@@ -12,8 +12,8 @@ const Home = () => {
 
 	const [citiesOptions, setCitiesOptions] = useState([]);
 	const [chosenCity, setChosenCity] = useState({
-		name: citiesOptions[0]?.name || '',
-		key: citiesOptions[0]?.key || '',
+		name: citiesOptions[0]?.name || 'Tel Aviv',
+		key: citiesOptions[0]?.key || '215854',
 	});
 
 	const getRelevantCities = async (cityName) => {
@@ -57,12 +57,7 @@ const Home = () => {
 				renderInput={(params) => <TextField {...params} label="City" variant="outlined" />}
 			/>
 			{chosenCity?.name && chosenCity?.key && (
-				<CityWeather
-					city={chosenCity?.name}
-					cityKey={chosenCity?.key}
-					isFav={false}
-					closeCityWeather={closeCityWeather}
-				/>
+				<CityWeather cityName={chosenCity?.name} cityKey={chosenCity?.key} closeCityWeather={closeCityWeather} />
 			)}
 		</div>
 	);

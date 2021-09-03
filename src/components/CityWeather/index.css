@@ -48,6 +48,7 @@
 	display: flex;
 	align-self: center;
 	padding: 15px;
+	cursor: pointer;
 }
 .fav-button-wrapper {
 	display: flex;
@@ -66,6 +67,7 @@
 }
 .five-days-weather {
 	display: flex;
+	flex-wrap: wrap;
 	flex-direction: row;
 	justify-content: space-between;
 	width: 100%;

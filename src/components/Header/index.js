@@ -23,10 +23,11 @@ const useStyles = makeStyles(() => ({
 	menuWrapper: {
 		display: 'flex',
 	},
-	menuLeft: {
+	webTitle: {
 		display: 'flex',
 		paddingLeft: '50px',
-		fontWeight: 700,
+		fontWeight: 'bold',
+		fontSize: '21px',
 	},
 	menuButtons: {
 		display: 'flex',
@@ -38,13 +39,20 @@ const useStyles = makeStyles(() => ({
 		padding: '20px',
 		fontFamily: 'Montserrat, Roboto, OpenSans',
 	},
+	menuButtonSelected: {
+		display: 'flex',
+		fontSize: '25px',
+		padding: '20px',
+		color: 'red',
+		fontFamily: 'Montserrat, Roboto, OpenSans',
+	},
 }));
 
 const Header = () => {
-	const { menuButtons, menuButton, menuLeft, appBar } = useStyles();
+	const { menuButtons, menuButton, menuButtonSelected, webTitle, appBar } = useStyles();
 
-	const webTitle = () => {
-		return <Toolbar className={menuLeft}>Herolo Weather Task</Toolbar>;
+	const getWebTitle = () => {
+		return <Toolbar className={webTitle}>Herolo Weather Task</Toolbar>;
 	};
 
 	const getMenuButtons = () => {
@@ -56,7 +64,7 @@ const Header = () => {
 						color: 'inherit',
 						to: href,
 						component: RouterLink,
-						className: menuButton,
+						className: window.location.pathname.includes('favorites') ? menuButtonSelected : menuButton,
 					}}
 				>
 					{label}
@@ -66,9 +74,9 @@ const Header = () => {
 	};
 
 	return (
-		<div className="header-wrapper" style={{ height: '10%' }}>
+		<div className="header-wrapper">
 			<AppBar className={appBar}>
-				{webTitle()}
+				{getWebTitle()}
 				<div className={menuButtons}>{getMenuButtons()}</div>
 			</AppBar>
 		</div>
