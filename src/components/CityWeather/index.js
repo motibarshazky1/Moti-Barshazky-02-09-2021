@@ -6,9 +6,7 @@ import Button from '@material-ui/core/Button';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import DayWeather from '../DayWeather';
-
 import { addCityToFavorites, removeCityFromFavorites } from '../../actions/favoritesActions';
-
 import './index.css';
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -114,17 +112,23 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 				</div>
 				<div className="sub-header right">
 					<div className="fav-indicator-wrapper" onClick={onClickFavButton}>
-						{isCityFavorite ? (
-							<FavoriteIcon style={{ width: '2rem', height: '2rem' }} />
-						) : (
-							<FavoriteBorderIcon style={{ width: '2rem', height: '2rem' }} />
-						)}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="30"
+							height="30"
+							viewBox="0 0 25 25"
+							fill={`${isCityFavorite ? 'red' : ''}`}
+							style={{ transition: 'fill 0.5s linear' }}
+						>
+							<path d="M12 4.419c-2.826-5.695-11.999-4.064-11.999 3.27 0 7.27 9.903 10.938 11.999 15.311 2.096-4.373 12-8.041 12-15.311 0-7.327-9.17-8.972-12-3.27z" />{' '}
+						</svg>
 					</div>
 					<div className="fav-button-wrapper">
 						<Button
 							variant="outlined"
 							color={`${!isCityFavorite ? 'primary' : 'secondary'}`}
 							onClick={onClickFavButton}
+							style={{ transition: 'all 0.5s linear' }}
 						>
 							{`${!isCityFavorite ? 'Add To' : 'Remove From'} Favorites`}
 						</Button>

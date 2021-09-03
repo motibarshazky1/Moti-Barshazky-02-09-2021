@@ -47,7 +47,7 @@
 .fav-indicator-wrapper {
 	display: flex;
 	align-self: center;
-	padding: 15px;
+	margin-right: 10px;
 	cursor: pointer;
 }
 .fav-button-wrapper {

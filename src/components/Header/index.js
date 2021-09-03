@@ -1,18 +1,9 @@
-import { AppBar, Toolbar, makeStyles, Button } from '@material-ui/core';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import './index.css';
 
-const headersData = [
-	{
-		label: 'Home',
-		href: '/',
-	},
-	{
-		label: 'Favorites',
-		href: '/favorites',
-	},
-];
+import { AppBar, Toolbar, makeStyles, Button } from '@material-ui/core';
+
+import './index.css';
 
 const useStyles = makeStyles(() => ({
 	appBar: {
@@ -35,49 +26,69 @@ const useStyles = makeStyles(() => ({
 	},
 	menuButton: {
 		display: 'flex',
-		fontSize: '15px',
+		fontSize: '17px',
 		padding: '20px',
 		fontFamily: 'Montserrat, Roboto, OpenSans',
+		transition: 'all 0.5s linear',
+		color: 'darkgrey',
 	},
 	menuButtonSelected: {
 		display: 'flex',
-		fontSize: '25px',
+		fontSize: '17px',
 		padding: '20px',
-		color: 'red',
+		color: 'white',
 		fontFamily: 'Montserrat, Roboto, OpenSans',
+		transition: 'all 0.5s linear',
 	},
 }));
 
 const Header = () => {
 	const { menuButtons, menuButton, menuButtonSelected, webTitle, appBar } = useStyles();
+	const [selectedHeader, setSelectedHeader] = useState('');
+
+	useEffect(() => {
+		// get the selected header from query param
+		if (window.location.pathname.includes('favorites')) {
+			setSelectedHeader('favorites');
+		} else {
+			setSelectedHeader('home');
+		}
+	}, []);
 
 	const getWebTitle = () => {
 		return <Toolbar className={webTitle}>Herolo Weather Task</Toolbar>;
-	};
-
-	const getMenuButtons = () => {
-		return headersData.map(({ label, href }) => {
-			return (
-				<Button
-					{...{
-						key: label,
-						color: 'inherit',
-						to: href,
-						component: RouterLink,
-						className: window.location.pathname.includes('favorites') ? menuButtonSelected : menuButton,
-					}}
-				>
-					{label}
-				</Button>
-			);
-		});
 	};
 
 	return (
 		<div className="header-wrapper">
 			<AppBar className={appBar}>
 				{getWebTitle()}
-				<div className={menuButtons}>{getMenuButtons()}</div>
+				<div className={menuButtons}>
+					<Button
+						onClick={() => setSelectedHeader('home')}
+						{...{
+							key: 'Home',
+							color: 'inherit',
+							to: '/',
+							component: RouterLink,
+							className: selectedHeader === 'home' ? menuButtonSelected : menuButton,
+						}}
+					>
+						Home
+					</Button>
+					<Button
+						onClick={() => setSelectedHeader('favorites')}
+						{...{
+							key: 'Favorites',
+							color: 'inherit',
+							to: '/favorites',
+							component: RouterLink,
+							className: selectedHeader === 'favorites' ? menuButtonSelected : menuButton,
+						}}
+					>
+						Favorites
+					</Button>
+				</div>
 			</AppBar>
 		</div>
 	);
