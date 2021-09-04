@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+
 import FavoriteCity from '../../components/FavoriteCity';
 
 import './index.css';
@@ -9,6 +10,7 @@ const FavoritesPage = () => {
 	const history = useHistory();
 	const { cities } = useSelector((state) => state.favorites);
 
+	// handle click on favorite city and navigate to home page
 	const onClickFavoriteCity = (cityId, cityName) => {
 		history.push({ pathname: '/', state: { city: { name: cityName, key: cityId } } });
 	};

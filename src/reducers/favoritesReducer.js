@@ -4,7 +4,7 @@ const initialState = {
 	cities: [],
 };
 
-export default (state = initialState, action) => {
+export const favoritesReducer = (state = initialState, action) => {
 	const { type, payload } = action;
 	switch (type) {
 		case ADD_CITY_TO_FAVORITES:

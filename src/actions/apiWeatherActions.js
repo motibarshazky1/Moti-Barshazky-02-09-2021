@@ -1,6 +1,9 @@
-import React from 'react';
 import { SET_API_KEY } from '../types';
 
+/**
+ * @description save api key in store for AccuWeather web
+ * @param {string} apiKey - the api key to save
+ */
 export const setApiKeyWeather = (apiKey) => async (dispatch) => {
 	try {
 		if (apiKey) {

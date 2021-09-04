@@ -19,6 +19,7 @@ const useStyles = makeStyles(() => ({
 		paddingLeft: '50px',
 		fontWeight: 'bold',
 		fontSize: '21px',
+		cursor: 'pointer',
 	},
 	menuButtons: {
 		display: 'flex',
@@ -59,14 +60,10 @@ const Header = () => {
 		}
 	}, []);
 
-	const getWebTitle = () => {
-		return <Toolbar className={webTitle}>Herolo Weather Task</Toolbar>;
-	};
-
 	return (
 		<div className="header-wrapper">
 			<AppBar className={appBar}>
-				{getWebTitle()}
+				<Toolbar className={webTitle}>Herolo Weather Task</Toolbar>{' '}
 				<div className={menuButtons}>
 					<svg
 						onClick={() => setSelectedHeader('home')}

@@ -2,6 +2,10 @@ import store from '../store';
 
 import { ADD_CITY_TO_FAVORITES, REMOVE_CITY_FROM_FAVORITES } from '../types';
 
+/**
+ * @description add city to user's favorites cities in store
+ * @param {object} cityToAdd - the city to add to favorites
+ */
 export const addCityToFavorites = (cityToAdd) => async (dispatch) => {
 	try {
 		if (cityToAdd) {
@@ -16,6 +20,11 @@ export const addCityToFavorites = (cityToAdd) => async (dispatch) => {
 		return err;
 	}
 };
+
+/**
+ * @description reomve city from user's favorites cities in store
+ * @param {string} cityKey - the city to remove from favorites
+ */
 export const removeCityFromFavorites = (cityKey) => async (dispatch) => {
 	try {
 		if (cityKey) {

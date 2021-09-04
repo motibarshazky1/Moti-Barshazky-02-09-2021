@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import Button from '@material-ui/core/Button';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import DayWeather from '../DayWeather';
 
 import { addCityToFavorites, removeCityFromFavorites } from '../../actions/favoritesActions';
+
 import Modal from '../Modal';
 
 import './index.css';
@@ -38,12 +37,18 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 		getIsCityFavorite();
 	}, [cities]);
 
-	// returns the day in the week for the given date
+	/**
+	 * @description returns the day in the week for the given date
+	 * @param {string} stringDate - day date as string
+	 */
 	const getDayInWeek = (stringDate) => {
 		const date = new Date(stringDate);
 		return days[date.getDay()];
 	};
 
+	/**
+	 * @description make an api request and get current weather in specific city
+	 */
 	const getCurrentWeather = async () => {
 		await fetch(
 			`http://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=kaYTdyRzqH9megpwzphpJWfPtcEF0jwL`
@@ -62,6 +67,9 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 			});
 	};
 
+	/**
+	 * @description make an api request and get 5 days weather in specific city
+	 */
 	const getFiveDaysWeather = async () => {
 		await fetch(
 			`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=kaYTdyRzqH9megpwzphpJWfPtcEF0jwL&metric=true`
@@ -82,9 +90,11 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 			});
 	};
 
+	/**
+	 * @description check if city is in user's favorites cities
+	 */
 	const getIsCityFavorite = () => {
 		if (cities && cityName && cityKey) {
-			// search if city is in favorites
 			const cityFound = cities.find((city) => city.name === cityName);
 			if (cityFound) {
 				// city is in favorites
@@ -96,6 +106,9 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 		}
 	};
 
+	/**
+	 * @description handle click on favorite button to toggle city's favorite mode
+	 */
 	const onClickFavButton = () => {
 		setIsCityFavorite(!isCityFavorite);
 		if (!isCityFavorite) {

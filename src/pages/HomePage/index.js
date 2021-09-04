@@ -32,6 +32,10 @@ const Home = () => {
 		}
 	}, [location]);
 
+	/**
+	 * @description make an api request and get all cities filtered by the input
+	 * @param {string} cityName - the value of the inserted input
+	 */
 	const getRelevantCities = async (cityName) => {
 		if (!cityName) {
 			setCitiesOptions([]);
@@ -54,6 +58,9 @@ const Home = () => {
 		}
 	};
 
+	/**
+	 * @description handle click on close icon to close the current city weather shown
+	 */
 	const closeCityWeather = () => {
 		setChosenCity({});
 		setCitiesOptions([]);
