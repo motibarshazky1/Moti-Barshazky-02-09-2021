@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { AppBar, Toolbar, makeStyles, Button } from '@material-ui/core';
@@ -48,6 +49,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Header = () => {
+	const location = useLocation();
 	const { menuButtons, menuButton, menuButtonSelected, webTitle, appBar, svg } = useStyles();
 	const [selectedHeader, setSelectedHeader] = useState('');
 
@@ -58,7 +60,7 @@ const Header = () => {
 		} else {
 			setSelectedHeader('home');
 		}
-	}, []);
+	}, [location]);
 
 	return (
 		<div className="header-wrapper">
