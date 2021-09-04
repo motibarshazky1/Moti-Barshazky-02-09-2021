@@ -9,6 +9,7 @@ import './index.css';
 const FavoritesPage = () => {
 	const history = useHistory();
 	const { cities } = useSelector((state) => state.favorites);
+	const { units } = useSelector((state) => state.environment);
 
 	// handle click on favorite city and navigate to home page
 	const onClickFavoriteCity = (cityId, cityName) => {
@@ -25,6 +26,7 @@ const FavoritesPage = () => {
 					currentDegrees={city.currentCityWeather.degrees}
 					currentTitle={city.currentCityWeather.title}
 					onClickFavoriteCity={onClickFavoriteCity}
+					units={units}
 				/>
 			))}
 		</div>

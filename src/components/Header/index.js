@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { AppBar, Toolbar, makeStyles, Button } from '@material-ui/core';
+
+import { toggleDegreeUnits } from '../../actions/environmentActions';
 
 import './index.css';
 
@@ -52,6 +55,7 @@ const Header = () => {
 	const location = useLocation();
 	const { menuButtons, menuButton, menuButtonSelected, webTitle, appBar, svg } = useStyles();
 	const [selectedHeader, setSelectedHeader] = useState('');
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		// get the selected header from url param
@@ -62,11 +66,18 @@ const Header = () => {
 		}
 	}, [location]);
 
+	const onClickToggle = () => {
+		dispatch(toggleDegreeUnits());
+	};
+
 	return (
 		<div className="header-wrapper">
 			<AppBar className={appBar}>
 				<Toolbar className={webTitle}>Herolo Weather Task</Toolbar>{' '}
 				<div className={menuButtons}>
+					<Button onClick={onClickToggle} style={{ padding: '20px 35px 20px 10px', marginRight: '40px' }}>
+						TOGGLE
+					</Button>
 					<svg
 						onClick={() => setSelectedHeader('home')}
 						className={svg}

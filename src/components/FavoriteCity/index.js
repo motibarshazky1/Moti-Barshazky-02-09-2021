@@ -2,7 +2,7 @@ import React from 'react';
 
 import './index.css';
 
-const FavoriteCity = ({ cityName, cityKey, currentDegrees, currentTitle, onClickFavoriteCity }) => {
+const FavoriteCity = ({ cityName, cityKey, currentDegrees, currentTitle, onClickFavoriteCity, units }) => {
 	return (
 		<div className="city-wrapper" key={cityKey} onClick={() => onClickFavoriteCity(cityKey, cityName)}>
 			<svg
@@ -16,7 +16,7 @@ const FavoriteCity = ({ cityName, cityKey, currentDegrees, currentTitle, onClick
 				<path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z" />
 			</svg>
 			<label className="label name">{cityName}</label>
-			<label className="label degrees">{`${currentDegrees}° c`}</label>
+			<label className="label degrees">{`${currentDegrees}° ${units}`}</label>
 			<label className="label title">{currentTitle}</label>
 		</div>
 	);
