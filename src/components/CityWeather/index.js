@@ -8,7 +8,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import DayWeather from '../DayWeather';
 
 import { addCityToFavorites, removeCityFromFavorites } from '../../actions/favoritesActions';
-import Modal from '../../components/Modal';
+import Modal from '../Modal';
 
 import './index.css';
 
@@ -117,6 +117,7 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 
 	const onCloseModal = () => {
 		setIsModalOpen(false);
+		setErrTitle('');
 		setErrMsg('');
 	};
 

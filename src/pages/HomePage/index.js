@@ -6,11 +6,18 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import CityWeather from '../../components/CityWeather';
+import Modal from '../../components/Modal';
+
 import './index.css';
 
 const Home = () => {
 	const location = useLocation();
 	const { apiKey } = useSelector((state) => state.apiWeather);
+
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [errTitle, setErrTitle] = useState('');
+	const [errMsg, setErrMsg] = useState('');
+
 	console.log(location);
 	const [citiesOptions, setCitiesOptions] = useState([]);
 	const [chosenCity, setChosenCity] = useState({
@@ -38,7 +45,12 @@ const Home = () => {
 						return { name: city.LocalizedName, key: city.Key };
 					})
 				)
-				.then((citiesArr) => setCitiesOptions(citiesArr));
+				.then((citiesArr) => setCitiesOptions(citiesArr))
+				.catch((err) => {
+					setErrTitle('Error while trying to fetch getRelevantCities:');
+					setErrMsg(err.message);
+					setIsModalOpen(true);
+				});
 		}
 	};
 
@@ -47,8 +59,18 @@ const Home = () => {
 		setCitiesOptions([]);
 	};
 
+	const onCloseModal = () => {
+		setIsModalOpen(false);
+		setErrTitle('');
+		setErrMsg('');
+	};
+
 	return (
 		<div className="home-wrapper">
+			{errMsg && errTitle && isModalOpen && (
+				<Modal open={isModalOpen} onClose={onCloseModal} errMsg={errMsg} errTitle={errTitle} />
+			)}
+
 			<Autocomplete
 				id="combo-box-demo"
 				options={citiesOptions}
