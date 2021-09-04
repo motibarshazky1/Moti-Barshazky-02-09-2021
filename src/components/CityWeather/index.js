@@ -6,7 +6,10 @@ import Button from '@material-ui/core/Button';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import DayWeather from '../DayWeather';
+
 import { addCityToFavorites, removeCityFromFavorites } from '../../actions/favoritesActions';
+import Modal from '../../components/Modal';
+
 import './index.css';
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -19,6 +22,9 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 	const [currentWeather, setCurrentWeather] = useState({});
 	const [fiveDaysWeather, setFiveDaysWeather] = useState([]);
 	const [isCityFavorite, setIsCityFavorite] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [errTitle, setErrTitle] = useState('');
+	const [errMsg, setErrMsg] = useState('');
 
 	useEffect(() => {
 		if (cityName && cityKey) {
@@ -39,18 +45,27 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 	};
 
 	const getCurrentWeather = async () => {
-		await fetch(`https://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=${apiKey}`)
+		await fetch(
+			`http://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=kaYTdyRzqH9megpwzphpJWfPtcEF0jwL`
+		)
 			.then((response) => response.json())
 			.then((responseJsonArr) =>
 				setCurrentWeather({
 					title: responseJsonArr[0].WeatherText,
 					degrees: responseJsonArr[0].Temperature.Metric.Value,
 				})
-			);
+			)
+			.catch((err) => {
+				setErrTitle('Error while trying to fetch getCurrentWeather:');
+				setErrMsg(err.message);
+				setIsModalOpen(true);
+			});
 	};
 
 	const getFiveDaysWeather = async () => {
-		await fetch(`https://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=${apiKey}&metric=true`)
+		await fetch(
+			`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=kaYTdyRzqH9megpwzphpJWfPtcEF0jwL&metric=true`
+		)
 			.then((response) => response.json())
 			.then((responseJsonArr) => {
 				responseJsonArr.DailyForecasts.forEach((element) => {
@@ -59,6 +74,11 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 					element.minDegrees = element.Temperature.Minimum.Value;
 				});
 				setFiveDaysWeather(responseJsonArr.DailyForecasts);
+			})
+			.catch((err) => {
+				setErrTitle('Error while trying to fetch getFiveDaysWeather:');
+				setErrMsg(err.message);
+				setIsModalOpen(true);
 			});
 	};
 
@@ -95,8 +115,16 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 		}
 	};
 
+	const onCloseModal = () => {
+		setIsModalOpen(false);
+		setErrMsg('');
+	};
+
 	return (
 		<div className="city-weather-wrapper">
+			{errMsg && errTitle && isModalOpen && (
+				<Modal open={isModalOpen} onClose={onCloseModal} errMsg={errMsg} errTitle={errTitle} />
+			)}
 			<div className="header">
 				<div className="sub-header left">
 					<div className="close-icon-wrapper" onClick={closeCityWeather}>

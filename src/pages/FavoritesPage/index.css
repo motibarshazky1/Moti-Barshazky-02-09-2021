@@ -6,35 +6,3 @@
 	flex-wrap: wrap;
 	margin-top: 100px;
 }
-.city-wrapper {
-	display: flex;
-	flex-direction: column;
-	margin: auto;
-	position: relative;
-	justify-content: center;
-	align-items: center;
-	padding: 30px;
-	border: 2px solid darkslateblue;
-	border-radius: 10px;
-	background-color: #97b6df;
-	width: 25%;
-	margin-bottom: 20px;
-	cursor: pointer;
-}
-.name {
-	font-size: 27px;
-	font-weight: bold;
-}
-.degrees {
-	margin-top: 15px;
-	font-size: 25px;
-}
-.title {
-	font-size: 25px;
-	margin-top: 40px;
-}
-.fav-icon {
-	position: absolute;
-	top: 15px;
-	left: 15px;
-}
