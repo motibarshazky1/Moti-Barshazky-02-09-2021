@@ -57,7 +57,7 @@ const Header = () => {
 	const location = useLocation();
 	const { menuButtons, menuButton, menuButtonSelected, webTitle, appBar, svg } = useStyles();
 	const [selectedHeader, setSelectedHeader] = useState('');
-	const [isChecked, setIsChecked] = useState(false);
+	const [isToggleChecked, setIsToggleChecked] = useState(false);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -70,7 +70,7 @@ const Header = () => {
 	}, [location]);
 
 	const onClickToggle = () => {
-		setIsChecked(!isChecked);
+		setIsToggleChecked(!isToggleChecked);
 		dispatch(toggleDegreeUnits());
 	};
 
@@ -82,7 +82,7 @@ const Header = () => {
 					<Switch
 						onChange={onClickToggle}
 						width={55}
-						checked={isChecked}
+						checked={isToggleChecked}
 						uncheckedIcon={
 							<div className="check">
 								<svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 24 24">
