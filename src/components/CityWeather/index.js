@@ -14,6 +14,7 @@ const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 
 const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 	const dispatch = useDispatch();
 	const { cities } = useSelector((state) => state.favorites);
+	const { apiKey } = useSelector((state) => state.apiWeather);
 
 	const [currentWeather, setCurrentWeather] = useState({});
 	const [fiveDaysWeather, setFiveDaysWeather] = useState([]);
@@ -39,7 +40,7 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 
 	const getCurrentWeather = async () => {
 		await fetch(
-			`http://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=bhOx7Wi06pAC43M5YXggSoSZbSAoV6QO`
+			`http://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=tLAAzAFGRQO6O5RGZQ92Kjx2zOxa4rJ9`
 		)
 			.then((response) => response.json())
 			.then((responseJsonArr) =>
@@ -52,7 +53,7 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 
 	const getFiveDaysWeather = async () => {
 		await fetch(
-			`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=bhOx7Wi06pAC43M5YXggSoSZbSAoV6QO&metric=true`
+			`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=tLAAzAFGRQO6O5RGZQ92Kjx2zOxa4rJ9&metric=true`
 		)
 			.then((response) => response.json())
 			.then((responseJsonArr) => {

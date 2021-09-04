@@ -47,7 +47,7 @@ const Header = () => {
 	const [selectedHeader, setSelectedHeader] = useState('');
 
 	useEffect(() => {
-		// get the selected header from query param
+		// get the selected header from url param
 		if (window.location.pathname.includes('favorites')) {
 			setSelectedHeader('favorites');
 		} else {
