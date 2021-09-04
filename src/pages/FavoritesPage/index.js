@@ -20,6 +20,7 @@ const FavoritesPage = () => {
 			{cities.map((city) => (
 				<FavoriteCity
 					key={city.id}
+					cityKey={city.id}
 					cityName={city.name}
 					currentDegrees={city.currentCityWeather.degrees}
 					currentTitle={city.currentCityWeather.title}

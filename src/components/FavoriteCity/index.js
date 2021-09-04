@@ -2,9 +2,9 @@ import React from 'react';
 
 import './index.css';
 
-const FavoriteCity = ({ cityName, key, currentDegrees, currentTitle, onClickFavoriteCity }) => {
+const FavoriteCity = ({ cityName, cityKey, currentDegrees, currentTitle, onClickFavoriteCity }) => {
 	return (
-		<div className="city-wrapper" key={key} onClick={() => onClickFavoriteCity(key, cityName)}>
+		<div className="city-wrapper" key={cityKey} onClick={() => onClickFavoriteCity(cityKey, cityName)}>
 			<svg
 				fill="yellow"
 				className="fav-icon"

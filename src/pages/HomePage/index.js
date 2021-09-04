@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
 import CityWeather from '../../components/CityWeather';
 import Modal from '../../components/Modal';
 
@@ -18,7 +17,6 @@ const Home = () => {
 	const [errTitle, setErrTitle] = useState('');
 	const [errMsg, setErrMsg] = useState('');
 
-	console.log(location);
 	const [citiesOptions, setCitiesOptions] = useState([]);
 	const [chosenCity, setChosenCity] = useState({
 		name: citiesOptions[0]?.name || 'Tel Aviv',
@@ -30,7 +28,7 @@ const Home = () => {
 			const { city } = location.state;
 			setChosenCity(city);
 		}
-	}, [location]);
+	}, [location.state]);
 
 	/**
 	 * @description make an api request and get all cities filtered by the input
@@ -41,7 +39,7 @@ const Home = () => {
 			setCitiesOptions([]);
 		} else {
 			await fetch(
-				`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=kaYTdyRzqH9megpwzphpJWfPtcEF0jwL&q=${cityName}&language=en`
+				`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=GchBuAUJb6shY0kGJeH17bHry7qegwzu&q=${cityName}&language=en`
 			)
 				.then((response) => response.json())
 				.then((responseJsonArr) =>
@@ -93,6 +91,7 @@ const Home = () => {
 					}
 				}}
 				renderInput={(params) => <TextField {...params} label="City" variant="outlined" />}
+				getOptionSelected={(option, value) => option.name === value.name}
 			/>
 			{chosenCity?.name && chosenCity?.key && (
 				<CityWeather cityName={chosenCity?.name} cityKey={chosenCity?.key} closeCityWeather={closeCityWeather} />
