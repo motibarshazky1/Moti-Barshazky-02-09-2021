@@ -45,13 +45,19 @@ const Home = () => {
 	 * @description when home page loaded - set the city(default) by coordinates(32.084393,34.781638 - Tel Aviv)
 	 */
 	const getDeafultCityByCoor = async () => {
-		await fetch(
-			`https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=EYkBWBy6V8KN1GsvNfXJXmw4d3Y8urrx&q=32.084393%2C%2034.781638`
-		)
-			.then((response) => response.json())
-			.then((responseJsonArr) =>
-				setChosenCity({ name: responseJsonArr.AdministrativeArea.LocalizedName, key: responseJsonArr.Key })
-			);
+		try {
+			await fetch(
+				`https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=32.084393%2C%2034.781638`
+			)
+				.then((response) => response.json())
+				.then((responseJsonArr) =>
+					setChosenCity({ name: responseJsonArr.AdministrativeArea.LocalizedName, key: responseJsonArr.Key })
+				);
+		} catch (err) {
+			setErrTitle('Error while trying to fetch getDeafultCityByCoor:');
+			setErrMsg(err.message);
+			setIsModalOpen(true);
+		}
 	};
 
 	/**
@@ -59,24 +65,25 @@ const Home = () => {
 	 * @param {string} cityName - the value of the inserted input
 	 */
 	const getRelevantCities = async (cityName) => {
-		if (!cityName) {
-			setCitiesOptions([]);
-		} else {
-			await fetch(
-				`https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=EYkBWBy6V8KN1GsvNfXJXmw4d3Y8urrx&q=${cityName}&language=en`
-			)
-				.then((response) => response.json())
-				.then((responseJsonArr) =>
-					responseJsonArr.map((city) => {
-						return { name: city.LocalizedName, key: city.Key };
-					})
+		try {
+			if (!cityName) {
+				setCitiesOptions([]);
+			} else {
+				await fetch(
+					`https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${cityName}&language=en`
 				)
-				.then((citiesArr) => setCitiesOptions(citiesArr))
-				.catch((err) => {
-					setErrTitle('Error while trying to fetch getRelevantCities:');
-					setErrMsg(err.message);
-					setIsModalOpen(true);
-				});
+					.then((response) => response.json())
+					.then((responseJsonArr) =>
+						responseJsonArr.map((city) => {
+							return { name: city.LocalizedName, key: city.Key };
+						})
+					)
+					.then((citiesArr) => setCitiesOptions(citiesArr));
+			}
+		} catch (err) {
+			setErrTitle('Error while trying to fetch getRelevantCities:');
+			setErrMsg(err.message);
+			setIsModalOpen(true);
 		}
 	};
 
@@ -99,7 +106,6 @@ const Home = () => {
 			{errMsg && errTitle && isModalOpen && (
 				<Modal open={isModalOpen} onClose={onCloseModal} errMsg={errMsg} errTitle={errTitle} />
 			)}
-
 			<Autocomplete
 				id="combo-box-demo"
 				options={citiesOptions}

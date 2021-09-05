@@ -35,7 +35,9 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 	}, [cityName, cityKey]);
 
 	useEffect(() => {
-		getIsCityFavorite();
+		if (cities) {
+			getIsCityFavorite();
+		}
 	}, [cities]);
 
 	/**
@@ -43,55 +45,55 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 	 * @param {string} stringDate - day date as string
 	 */
 	const getDayInWeek = (stringDate) => {
-		const date = new Date(stringDate);
-		return days[date.getDay()];
+		if (stringDate) {
+			const date = new Date(stringDate);
+			return days[date.getDay()];
+		}
 	};
 
 	/**
 	 * @description make an api request and get current weather in specific city
 	 */
 	const getCurrentWeather = async () => {
-		await fetch(
-			`https://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=EYkBWBy6V8KN1GsvNfXJXmw4d3Y8urrx`
-		)
-			.then((response) => response.json())
-			.then((responseJsonArr) =>
-				setCurrentWeather({
-					title: responseJsonArr[0].WeatherText,
-					degreesC: responseJsonArr[0].Temperature.Metric.Value,
-					degreesF: responseJsonArr[0].Temperature.Imperial.Value,
-				})
-			)
-			.catch((err) => {
-				setErrTitle('Error while trying to fetch getCurrentWeather:');
-				setErrMsg(err.message);
-				setIsModalOpen(true);
-			});
+		try {
+			await fetch(`https://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=${apiKey}`)
+				.then((response) => response.json())
+				.then((responseJsonArr) =>
+					setCurrentWeather({
+						title: responseJsonArr[0].WeatherText,
+						degreesC: responseJsonArr[0].Temperature.Metric.Value,
+						degreesF: responseJsonArr[0].Temperature.Imperial.Value,
+					})
+				);
+		} catch (err) {
+			setErrTitle('Error while trying to fetch getCurrentWeather:');
+			setErrMsg(err.message);
+			setIsModalOpen(true);
+		}
 	};
 
 	/**
 	 * @description make an api request and get 5 days weather in specific city
 	 */
 	const getFiveDaysWeather = async () => {
-		await fetch(
-			`https://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=EYkBWBy6V8KN1GsvNfXJXmw4d3Y8urrx&metric=true`
-		)
-			.then((response) => response.json())
-			.then((responseJsonArr) => {
-				responseJsonArr.DailyForecasts.forEach((element) => {
-					element.day = getDayInWeek(element.Date);
-					element.maxDegreesC = element.Temperature.Maximum.Value;
-					element.minDegreesC = element.Temperature.Minimum.Value;
-					element.maxDegreesF = ((element.Temperature.Maximum.Value * 9) / 5 + 32).toFixed(0); // calc degrees in F
-					element.minDegreesF = ((element.Temperature.Minimum.Value * 9) / 5 + 32).toFixed(0); // calc degrees in F
+		try {
+			await fetch(`https://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=${apiKey}&metric=true`)
+				.then((response) => response.json())
+				.then((responseJsonArr) => {
+					responseJsonArr.DailyForecasts.forEach((element) => {
+						element.day = getDayInWeek(element.Date);
+						element.maxDegreesC = element.Temperature.Maximum.Value;
+						element.minDegreesC = element.Temperature.Minimum.Value;
+						element.maxDegreesF = ((element.Temperature.Maximum.Value * 9) / 5 + 32).toFixed(0); // calc degrees in F
+						element.minDegreesF = ((element.Temperature.Minimum.Value * 9) / 5 + 32).toFixed(0); // calc degrees in F
+					});
+					setFiveDaysWeather(responseJsonArr.DailyForecasts);
 				});
-				setFiveDaysWeather(responseJsonArr.DailyForecasts);
-			})
-			.catch((err) => {
-				setErrTitle('Error while trying to fetch getFiveDaysWeather:');
-				setErrMsg(err.message);
-				setIsModalOpen(true);
-			});
+		} catch (err) {
+			setErrTitle('Error while trying to fetch getCurrentWeather:');
+			setErrMsg(err.message);
+			setIsModalOpen(true);
+		}
 	};
 
 	/**
@@ -107,6 +109,10 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 				// city is NOT in favorites
 				setIsCityFavorite(false);
 			}
+		} else {
+			setErrTitle('Error while trying to fetch getCurrentWeather:');
+			setErrMsg('There are no favorite cities or no city has been chosen');
+			setIsModalOpen(true);
 		}
 	};
 
@@ -115,6 +121,7 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 	 */
 	const onClickFavButton = () => {
 		setIsCityFavorite(!isCityFavorite);
+		let res;
 		if (!isCityFavorite) {
 			// add city to favorites
 			const cityToAdd = {
@@ -126,10 +133,15 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 					title: currentWeather.title,
 				},
 			};
-			dispatch(addCityToFavorites(cityToAdd));
+			res = dispatch(addCityToFavorites(cityToAdd));
 		} else {
 			// remove city from favorites
-			dispatch(removeCityFromFavorites(cityKey));
+			res = dispatch(removeCityFromFavorites(cityKey));
+		}
+		if (res) {
+			setErrTitle('Error while trying to execute onClickFavButton:');
+			setErrMsg(res.message);
+			setIsModalOpen(true);
 		}
 	};
 

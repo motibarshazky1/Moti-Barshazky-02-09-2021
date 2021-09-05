@@ -7,6 +7,7 @@ import { AppBar, Toolbar, makeStyles, Button } from '@material-ui/core';
 import Switch from 'react-switch';
 
 import { toggleDegreeUnits } from '../../actions/environmentActions';
+import Modal from '../Modal';
 
 import './index.css';
 
@@ -57,10 +58,14 @@ const useStyles = makeStyles(() => ({
 
 const Header = () => {
 	const location = useLocation();
+	const dispatch = useDispatch();
+
 	const { menuButtons, menuButton, menuButtonSelected, webTitle, appBar, svg } = useStyles();
 	const [selectedHeader, setSelectedHeader] = useState('');
 	const [isToggleChecked, setIsToggleChecked] = useState(false);
-	const dispatch = useDispatch();
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [errTitle, setErrTitle] = useState('');
+	const [errMsg, setErrMsg] = useState('');
 
 	useEffect(() => {
 		// get the selected header from url param
@@ -73,11 +78,26 @@ const Header = () => {
 
 	const onClickToggle = () => {
 		setIsToggleChecked(!isToggleChecked);
-		dispatch(toggleDegreeUnits());
+		const res = dispatch(toggleDegreeUnits());
+		if (res) {
+			setErrTitle('Error while trying to toggle degrees units');
+			setErrMsg(res.message);
+			setIsModalOpen(true);
+		}
+	};
+
+	const onCloseModal = () => {
+		setIsModalOpen(false);
+		setErrTitle('');
+		setErrMsg('');
 	};
 
 	return (
 		<div className="header-wrapper">
+			{errMsg && errTitle && isModalOpen && (
+				<Modal open={isModalOpen} onClose={onCloseModal} errMsg={errMsg} errTitle={errTitle} />
+			)}
+
 			<AppBar className={appBar}>
 				<Toolbar className={webTitle}>Herolo Weather Task</Toolbar>
 				<div className="example">
