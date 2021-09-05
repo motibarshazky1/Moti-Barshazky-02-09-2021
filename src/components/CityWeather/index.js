@@ -52,7 +52,7 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 	 */
 	const getCurrentWeather = async () => {
 		await fetch(
-			`https://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=GchBuAUJb6shY0kGJeH17bHry7qegwzu`
+			`https://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=EYkBWBy6V8KN1GsvNfXJXmw4d3Y8urrx`
 		)
 			.then((response) => response.json())
 			.then((responseJsonArr) =>
@@ -74,7 +74,7 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 	 */
 	const getFiveDaysWeather = async () => {
 		await fetch(
-			`https://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=GchBuAUJb6shY0kGJeH17bHry7qegwzu&metric=true`
+			`https://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=EYkBWBy6V8KN1GsvNfXJXmw4d3Y8urrx&metric=true`
 		)
 			.then((response) => response.json())
 			.then((responseJsonArr) => {
