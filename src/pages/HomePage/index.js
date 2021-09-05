@@ -44,7 +44,7 @@ const Home = () => {
 	 */
 	const getDeafultCityByCoor = async () => {
 		await fetch(
-			`http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=GchBuAUJb6shY0kGJeH17bHry7qegwzu&q=32.084393%2C%2034.781638`
+			`https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=GchBuAUJb6shY0kGJeH17bHry7qegwzu&q=32.084393%2C%2034.781638`
 		)
 			.then((response) => response.json())
 			.then((responseJsonArr) =>
@@ -61,7 +61,7 @@ const Home = () => {
 			setCitiesOptions([]);
 		} else {
 			await fetch(
-				`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=GchBuAUJb6shY0kGJeH17bHry7qegwzu&q=${cityName}&language=en`
+				`https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=GchBuAUJb6shY0kGJeH17bHry7qegwzu&q=${cityName}&language=en`
 			)
 				.then((response) => response.json())
 				.then((responseJsonArr) =>
