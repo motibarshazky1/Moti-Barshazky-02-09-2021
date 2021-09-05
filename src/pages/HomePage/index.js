@@ -18,16 +18,39 @@ const Home = () => {
 
 	const [citiesOptions, setCitiesOptions] = useState([]);
 	const [chosenCity, setChosenCity] = useState({
-		name: citiesOptions[0]?.name || 'Tel Aviv',
-		key: citiesOptions[0]?.key || '215854',
+		name: citiesOptions[0]?.name,
+		key: citiesOptions[0]?.key,
 	});
 
+	/**
+	 * @description show Tel Aviv by default using coordinates
+	 */
+	useEffect(() => {
+		getDeafultCityByCoor();
+	}, []);
+
+	/**
+	 * @description when navigate to home from favorites by clicking on a favorite city -> show weather of the clicked city
+	 */
 	useEffect(() => {
 		if (location.state) {
 			const { city } = location.state;
 			setChosenCity(city);
 		}
 	}, [location.state]);
+
+	/**
+	 * @description when home page loaded - set the city(default) by coordinates(32.084393,34.781638 - Tel Aviv)
+	 */
+	const getDeafultCityByCoor = async () => {
+		await fetch(
+			`http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=GchBuAUJb6shY0kGJeH17bHry7qegwzu&q=32.084393%2C%2034.781638`
+		)
+			.then((response) => response.json())
+			.then((responseJsonArr) =>
+				setChosenCity({ name: responseJsonArr.AdministrativeArea.LocalizedName, key: responseJsonArr.Key })
+			);
+	};
 
 	/**
 	 * @description make an api request and get all cities filtered by the input
@@ -38,7 +61,7 @@ const Home = () => {
 			setCitiesOptions([]);
 		} else {
 			await fetch(
-				`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=tLAAzAFGRQO6O5RGZQ92Kjx2zOxa4rJ9&q=${cityName}&language=en`
+				`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=GchBuAUJb6shY0kGJeH17bHry7qegwzu&q=${cityName}&language=en`
 			)
 				.then((response) => response.json())
 				.then((responseJsonArr) =>
