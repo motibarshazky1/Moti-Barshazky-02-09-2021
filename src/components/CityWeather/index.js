@@ -52,13 +52,14 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 	 */
 	const getCurrentWeather = async () => {
 		await fetch(
-			`http://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=GchBuAUJb6shY0kGJeH17bHry7qegwzu`
+			`http://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=tLAAzAFGRQO6O5RGZQ92Kjx2zOxa4rJ9`
 		)
 			.then((response) => response.json())
 			.then((responseJsonArr) =>
 				setCurrentWeather({
 					title: responseJsonArr[0].WeatherText,
-					degrees: responseJsonArr[0].Temperature.Metric.Value,
+					degreesC: responseJsonArr[0].Temperature.Metric.Value,
+					degreesF: responseJsonArr[0].Temperature.Imperial.Value,
 				})
 			)
 			.catch((err) => {
@@ -73,14 +74,16 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 	 */
 	const getFiveDaysWeather = async () => {
 		await fetch(
-			`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=GchBuAUJb6shY0kGJeH17bHry7qegwzu&metric=true`
+			`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=tLAAzAFGRQO6O5RGZQ92Kjx2zOxa4rJ9&metric=true`
 		)
 			.then((response) => response.json())
 			.then((responseJsonArr) => {
 				responseJsonArr.DailyForecasts.forEach((element) => {
 					element.day = getDayInWeek(element.Date);
-					element.maxDegrees = element.Temperature.Maximum.Value;
-					element.minDegrees = element.Temperature.Minimum.Value;
+					element.maxDegreesC = element.Temperature.Maximum.Value;
+					element.minDegreesC = element.Temperature.Minimum.Value;
+					element.maxDegreesF = ((element.Temperature.Maximum.Value * 9) / 5 + 32).toFixed(0); // calc degrees in F
+					element.minDegreesF = ((element.Temperature.Minimum.Value * 9) / 5 + 32).toFixed(0); // calc degrees in F
 				});
 				setFiveDaysWeather(responseJsonArr.DailyForecasts);
 			})
@@ -118,7 +121,8 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 				name: cityName,
 				id: cityKey,
 				currentCityWeather: {
-					degrees: currentWeather.degrees,
+					degreesC: currentWeather.degreesC,
+					degreesF: currentWeather.degreesF,
 					title: currentWeather.title,
 				},
 			};
@@ -148,7 +152,7 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 					<div className="city-name-degrees-wrapper">
 						<label className="city-name">{cityName}</label>
 						<label className="header-degrees">
-							{currentWeather?.degrees}° {units}
+							{units === 'c' ? currentWeather?.degreesC : currentWeather?.degreesF}° {units}
 						</label>
 					</div>
 				</div>
@@ -184,8 +188,8 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 						<DayWeather
 							key={index}
 							day={dayWeather.day}
-							maxDegrees={`${dayWeather.maxDegrees}° ${units}`}
-							minDegrees={`${dayWeather.minDegrees}° ${units}`}
+							maxDegrees={`${units === 'c' ? dayWeather.maxDegreesC : dayWeather.maxDegreesF}° ${units}`}
+							minDegrees={`${units === 'c' ? dayWeather.minDegreesC : dayWeather.minDegreesF}° ${units}`}
 						/>
 					))}
 				</div>

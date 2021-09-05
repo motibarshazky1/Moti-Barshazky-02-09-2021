@@ -12,7 +12,6 @@ import './index.css';
 const Home = () => {
 	const location = useLocation();
 	const { apiKey } = useSelector((state) => state.apiWeather);
-
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [errTitle, setErrTitle] = useState('');
 	const [errMsg, setErrMsg] = useState('');
@@ -39,7 +38,7 @@ const Home = () => {
 			setCitiesOptions([]);
 		} else {
 			await fetch(
-				`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=GchBuAUJb6shY0kGJeH17bHry7qegwzu&q=${cityName}&language=en`
+				`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=tLAAzAFGRQO6O5RGZQ92Kjx2zOxa4rJ9&q=${cityName}&language=en`
 			)
 				.then((response) => response.json())
 				.then((responseJsonArr) =>

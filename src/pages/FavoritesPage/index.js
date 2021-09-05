@@ -23,7 +23,7 @@ const FavoritesPage = () => {
 					key={city.id}
 					cityKey={city.id}
 					cityName={city.name}
-					currentDegrees={city.currentCityWeather.degrees}
+					currentDegrees={units === 'c' ? city.currentCityWeather.degreesC : city.currentCityWeather.degreesF}
 					currentTitle={city.currentCityWeather.title}
 					onClickFavoriteCity={onClickFavoriteCity}
 					units={units}
