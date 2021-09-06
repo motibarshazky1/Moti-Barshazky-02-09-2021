@@ -9,7 +9,7 @@
 	border: 2px solid darkslateblue;
 	border-radius: 10px;
 	background-color: #97b2dfcf;
-	width: 25%;
+	width: 100%;
 	margin-bottom: 20px;
 	cursor: pointer;
 }
@@ -37,4 +37,7 @@
 
 .label {
 	cursor: pointer;
+}
+.item {
+	width: 25%;
 }

@@ -6,3 +6,20 @@
 	flex-wrap: wrap;
 	margin-top: 100px;
 }
+.container {
+	display: flex;
+	justify-content: space-evenly;
+	overflow: hidden;
+	margin: 0;
+	list-style: none;
+	grid-template-columns: repeat(3, 1fr);
+	/* grid-template-rows: repeat(2, 1fr); */
+	gap: 15px;
+	padding: 15px;
+	border-radius: 50px;
+	width: 100%;
+	opacity: 1;
+	transform: none;
+	height: 100%;
+	flex-wrap: wrap;
+}
