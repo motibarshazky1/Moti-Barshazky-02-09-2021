@@ -75,7 +75,12 @@ const AppModal = ({ open, onClose, errMsg, errTitle }) => {
 						</svg>
 						<label className={classes.errorTitle}>{errTitle}</label>
 						<label className={classes.errorMsg}>{errMsg}</label>
-						<Button variant="outlined" color="secondary" onClick={onClose}>
+						<Button
+							variant="outlined"
+							color="secondary"
+							onClick={onClose}
+							style={{ fontFamily: 'Montserrat, Roboto, OpenSans' }}
+						>
 							Close
 						</Button>
 					</div>

@@ -7,6 +7,7 @@
 	align-items: center;
 	background-color: rgb(232, 234, 246);
 	padding: 20px;
+	border-radius: 20px;
 }
 .header {
 	display: flex;
@@ -23,6 +24,10 @@
 .close-icon-wrapper {
 	display: flex;
 	cursor: pointer;
+}
+.close-icon-wrapper:hover {
+	transform: rotate(180deg);
+	transition: 800ms transform;
 }
 .city-name-degrees-wrapper {
 	display: flex;
@@ -52,6 +57,15 @@
 }
 .fav-button-wrapper {
 	display: flex;
+}
+.fav-button-wrapper:hover {
+	transform: scale(1.05) perspective(1px);
+	transition: all 1s ease;
+}
+
+.favorite-icon:hover {
+	transform: scale(1.1) perspective(1px);
+	transition: all 1s ease;
 }
 .body {
 	display: flex;

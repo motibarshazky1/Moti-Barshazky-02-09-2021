@@ -159,7 +159,9 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 			<div className="header">
 				<div className="sub-header left">
 					<div className="close-icon-wrapper" onClick={closeCityWeather}>
-						<HighlightOffIcon style={{ width: '3rem', height: '3rem' }} />
+						<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24">
+							<path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.151 17.943l-4.143-4.102-4.117 4.159-1.833-1.833 4.104-4.157-4.162-4.119 1.833-1.833 4.155 4.102 4.106-4.16 1.849 1.849-4.1 4.141 4.157 4.104-1.849 1.849z" />
+						</svg>
 					</div>
 					<div className="city-name-degrees-wrapper">
 						<label className="city-name">{cityName}</label>
@@ -171,6 +173,7 @@ const CityWeather = ({ cityName, cityKey, closeCityWeather }) => {
 				<div className="sub-header right">
 					<div className="fav-indicator-wrapper" onClick={onClickFavButton}>
 						<svg
+							className="favorite-icon"
 							xmlns="http://www.w3.org/2000/svg"
 							width="30"
 							height="30"
