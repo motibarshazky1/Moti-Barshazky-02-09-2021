@@ -47,7 +47,7 @@ const Home = () => {
 	const getDeafultCityByCoor = async () => {
 		try {
 			await fetch(
-				`https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${apiKey}&q=32.084393%2C%2034.781638`
+				`https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=bhOx7Wi06pAC43M5YXggSoSZbSAoV6QO&q=32.084393%2C%2034.781638`
 			)
 				.then((response) => response.json())
 				.then((responseJsonArr) =>
